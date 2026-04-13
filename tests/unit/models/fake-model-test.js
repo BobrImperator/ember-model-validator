@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import Messages from 'ember-model-validator/messages/en';
 import MessageFormater from '../../helpers/message-formater';
 
-const formater = MessageFormater.create();
+const formater = new MessageFormater();
 
 module('Unit | Model | fake-model', function (hooks) {
   setupTest(hooks);
