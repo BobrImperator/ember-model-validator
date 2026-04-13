@@ -16,14 +16,15 @@
     "#src/*": "./src/*"
   },
   "exports": {
-    ".": {
-      "default": "./dist/index.js"
-    },
+    ".": "./dist/index.js",
     "./addon-main.js": "./addon-main.cjs",
-    "./*.css": "./dist/*.css",
-    "./*": {
-      "default": "./dist/*.js"
-    }
+    "./decorators/*.js": "./dist/decorators/*.js",
+    "./decorators/*": "./dist/decorators/*.js",
+    "./initializers/*.js": "./dist/initializers/*.js",
+    "./initializers/*": "./dist/initializers/*.js",
+    "./messages/*.js": "./dist/messages/*.js",
+    "./messages/*": "./dist/messages/*.js",
+    "./postal-codes-regex": "./dist/postal-codes-regex.js"
   },
   "files": [
     "addon-main.cjs",
@@ -49,9 +50,6 @@
   "dependencies": {
     "@embroider/addon-shim": "^1.8.9",
     "decorator-transforms": "^2.2.2"
-  },
-  "peerDependencies": {
-    "ember-source": ">=4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
