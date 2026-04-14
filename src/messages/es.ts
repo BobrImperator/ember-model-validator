@@ -25,7 +25,8 @@ export default {
   tooShortMessage: 'es demasiado corto (mínimo {count} caracteres)',
   tooLongMessage: 'es demasiado largo (máximo {count} caracteres)',
   mustContainNumberMessage: 'debe incluir un número',
-  mustContainSpecialMessage: 'debe incluir uno de estos caracteres especiales: {characters}',
+  mustContainSpecialMessage:
+    'debe incluir uno de estos caracteres especiales: {characters}',
   mustContainLowerMessage: 'debe incluir un carácter en minúscula',
   mustContainCapitalMessage: 'debe incluir un carácter en mayúscula',
   customValidationMessage: 'es inválido',

@@ -22,11 +22,13 @@ export default {
   acceptanceMessage: 'precisa ser aceito',
   zipCodeMessage: 'não é um CEP válido',
   URLMessage: 'deve ser uma URL',
-  wrongLengthMessage: 'comprimento de palavra errado (deve conter {count} caracteres)',
+  wrongLengthMessage:
+    'comprimento de palavra errado (deve conter {count} caracteres)',
   tooShortMessage: 'muito curto (deve conter no minimo {count} caracteres)',
   tooLongMessage: 'muito longo (no maximo {count} caracteres)',
   mustContainNumberMessage: 'deve incluir um número',
-  mustContainSpecialMessage: 'deve conter um desse caracteres especiais: {characters}',
+  mustContainSpecialMessage:
+    'deve conter um desse caracteres especiais: {characters}',
   mustContainLowerMessage: 'deve conter uma letra em minusculo',
   mustContainCapitalMessage: 'deve contar uma letar em maisculo',
   customValidationMessage: 'está inválido',

@@ -1,7 +1,7 @@
 import { A } from '@ember/array';
 import { set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import Validator from './core-validator';
+import Validator from './core-validator.js';
 
 function objectValidator(Class) {
   @Validator
@@ -32,7 +32,10 @@ function objectValidator(Class) {
         set(this, 'errors', {
           ...this.errors,
           ...errorsObj,
-          _errors: [...this.errors._errors, { attribute, message: messages.flat() }],
+          _errors: [
+            ...this.errors._errors,
+            { attribute, message: messages.flat() },
+          ],
         });
       }
     }

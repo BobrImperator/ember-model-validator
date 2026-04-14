@@ -1,6 +1,17 @@
-import Model, { attr, belongsTo, hasMany, type AsyncBelongsTo, type AsyncHasMany } from '@ember-data/model';
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-declaration-merging, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+import Model, {
+  attr,
+  belongsTo,
+  hasMany,
+  type AsyncBelongsTo,
+  type AsyncHasMany,
+} from '@ember-data/model';
 
-import { modelValidator, type ValidationsConfig, type ValidatedModel } from 'ember-model-validator';
+import {
+  modelValidator,
+  type ValidationsConfig,
+  type ValidatedModel,
+} from 'ember-model-validator';
 import type AsyncModel from './async-model';
 import type OtherModel from './other-model';
 
@@ -14,43 +25,58 @@ class FakeModel extends Model {
   @attr('string') declare email: string;
   @attr('string') declare password: string;
   @attr('string') declare passwordConfirmation: string;
-  @attr('string', { defaultValue: 'donJoseRene@higuita.com' }) declare bussinessEmail: string;
+  @attr('string', { defaultValue: 'donJoseRene@higuita.com' })
+  declare bussinessEmail: string;
   @attr('string', { defaultValue: '423abb' }) declare favoriteColor: string;
   @attr('string') declare legacyCode: string;
-  @attr('string', { defaultValue: 'hiphopBachatudo' }) declare mainstreamCode: string;
+  @attr('string', { defaultValue: 'hiphopBachatudo' })
+  declare mainstreamCode: string;
   @attr('number') declare lotteryNumber: number;
   @attr('number') declare alibabaNumber: number;
   @attr('number', { defaultValue: 111 }) declare anInteger: number;
   @attr('number', { defaultValue: 5 }) declare anIntegerGreaterThan4: number;
   @attr('number', { defaultValue: 3 }) declare anIntegerLessThan4: number;
-  @attr('number', { defaultValue: 7 }) declare anIntegerGreaterThanOrEqual7: number;
-  @attr('number', { defaultValue: 6 }) declare anIntegerLessThanOrEqual6: number;
+  @attr('number', { defaultValue: 7 })
+  declare anIntegerGreaterThanOrEqual7: number;
+  @attr('number', { defaultValue: 6 })
+  declare anIntegerLessThanOrEqual6: number;
   @attr('number', { defaultValue: 10 }) declare aTenNumber: number;
   @attr('number', { defaultValue: 3 }) declare anOddNumber: number;
   @attr('number', { defaultValue: 2 }) declare anEvenNumber: number;
-  @attr('number', { defaultValue: undefined }) declare anOptionalNumber: number | null;
+  @attr('number', { defaultValue: undefined }) declare anOptionalNumber:
+    | number
+    | null;
   @attr('boolean', { defaultValue: true }) declare acceptConditions: boolean;
   @attr('number', { defaultValue: 12345 }) declare socialSecurity: number;
   @attr('number', { defaultValue: 1234 }) declare nsaNumber: number;
-  @attr('number', { defaultValue: 1234567891 }) declare chuncaluchoNumber: number;
+  @attr('number', { defaultValue: 1234567891 })
+  declare chuncaluchoNumber: number;
   @attr('number', { defaultValue: 3223 }) declare theMinimunmTwoNumber: number;
-  @attr('number', { defaultValue: 3223222222 }) declare theMinimunmInterpolatedTenNumber: number;
+  @attr('number', { defaultValue: 3223222222 })
+  declare theMinimunmInterpolatedTenNumber: number;
   @attr('number', { defaultValue: 12345 }) declare hugeName: number;
   @attr('string', { defaultValue: '09011' }) declare postalCodeUS: string;
   @attr('string', { defaultValue: 'KY16 8BP' }) declare postalCodeUK: string;
   @attr('string', { defaultValue: 'T2A2V8' }) declare postalCodeCA: string;
   @attr('string', { defaultValue: '09011' }) declare postalCodeZZ: string;
-  @attr('string', { defaultValue: 'fake_subdomain' }) declare mySubdomain: string;
-  @attr('string', { defaultValue: 'http://esbanarango.com' }) declare myBlog: string;
+  @attr('string', { defaultValue: 'fake_subdomain' })
+  declare mySubdomain: string;
+  @attr('string', { defaultValue: 'http://esbanarango.com' })
+  declare myBlog: string;
   @attr() declare thing: any;
-  @attr('number', { defaultValue: 12345 }) declare otherCustomValidation: number;
-  @attr('number', { defaultValue: 12345 }) declare otherCustomValidationBadMessageFunction: number;
+  @attr('number', { defaultValue: 12345 })
+  declare otherCustomValidation: number;
+  @attr('number', { defaultValue: 12345 })
+  declare otherCustomValidationBadMessageFunction: number;
   @attr() declare images: any;
   @attr('string') declare condType: string;
 
-  @hasMany('other-model', { async: true, inverse: 'fakeModel' }) declare otherFakes: AsyncHasMany<OtherModel>;
-  @belongsTo('other-model', { async: true, inverse: null }) declare otherFake: AsyncBelongsTo<OtherModel>;
-  @belongsTo('async-model', { async: true, inverse: 'fakeModel' }) declare asyncModel: AsyncModel;
+  @hasMany('other-model', { async: true, inverse: 'fakeModel' })
+  declare otherFakes: AsyncHasMany<OtherModel>;
+  @belongsTo('other-model', { async: true, inverse: null })
+  declare otherFake: AsyncBelongsTo<OtherModel>;
+  @belongsTo('async-model', { async: true, inverse: 'fakeModel' })
+  declare asyncModel: AsyncModel;
 
   @attr('date', {
     defaultValue() {
@@ -80,7 +106,10 @@ class FakeModel extends Model {
     },
     name: {
       presence: { errorAs: 'profile.name' },
-      inclusion: { in: ['Jose Rene', 'Aristi Gol', 'Armani'], message: 'Solo verde a morir' },
+      inclusion: {
+        in: ['Jose Rene', 'Aristi Gol', 'Armani'],
+        message: 'Solo verde a morir',
+      },
     },
     images: {
       presence: {
@@ -93,7 +122,10 @@ class FakeModel extends Model {
       absence: true,
     },
     secondName: {
-      exclusion: { in: ['Gionvany Hernandez', 'Wilder Medina'], message: 'Que iNrresponsabilidad' },
+      exclusion: {
+        in: ['Gionvany Hernandez', 'Wilder Medina'],
+        message: 'Que iNrresponsabilidad',
+      },
     },
     socialSecurity: {
       length: 5,
@@ -139,7 +171,9 @@ class FakeModel extends Model {
     },
     password: {
       custom: function (key: string, value: any, _this: FakeModel) {
-        return String(value) === String(_this.get('socialSecurity')) ? false : true;
+        return String(value) === String(_this.get('socialSecurity'))
+          ? false
+          : true;
       },
       match: 'passwordConfirmation',
       mustContainCapital: true,
@@ -162,7 +196,10 @@ class FakeModel extends Model {
       ],
     },
     mySubdomain: {
-      subdomain: { reserved: ['admin', 'blog'], message: 'this subdomain is super invalid' },
+      subdomain: {
+        reserved: ['admin', 'blog'],
+        message: 'this subdomain is super invalid',
+      },
     },
     myBlog: {
       URL: true,

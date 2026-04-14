@@ -8,10 +8,12 @@ export default {
   numericalityMessage: 'nem szám',
   numericalityOnlyIntegerMessage: 'egész számnak kell lennie',
   numericalityGreaterThanMessage: 'nagyobbnak kell lennie, mint {count}',
-  numericalityGreaterThanOrEqualToMessage: 'nagyobbnak vagy egyenlőnek kell lennie, mint {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'nagyobbnak vagy egyenlőnek kell lennie, mint {count}',
   numericalityEqualToMessage: 'egyenlőnek kell lennie {count}-val/vel',
   numericalityLessThanMessage: 'kisebbnek kell lennie, mint {count}',
-  numericalityLessThanOrEqualToMessage: 'kisebbnek vagy egyenlőnek kell lennie, mint {count}',
+  numericalityLessThanOrEqualToMessage:
+    'kisebbnek vagy egyenlőnek kell lennie, mint {count}',
   numericalityOddMessage: 'páratlannak kell lennie',
   numericalityEvenMessage: 'párosnak kell lennie',
 
@@ -22,11 +24,13 @@ export default {
   acceptanceMessage: 'el kell fogadni',
   zipCodeMessage: 'érvénytelen irányítószám',
   URLMessage: 'érvényes url-nek kell lennie',
-  wrongLengthMessage: 'nem megfelelő hosszúságú ({count} karakternek kell lennie)',
+  wrongLengthMessage:
+    'nem megfelelő hosszúságú ({count} karakternek kell lennie)',
   tooShortMessage: 'túl rövid (minimum {count} karakter)',
   tooLongMessage: 'túl hosszú (maximum {count} karakter)',
   mustContainNumberMessage: 'tartalmaznia kell egy számot',
-  mustContainSpecialMessage: 'tartalmaznia kell az alábbi különleges karakterek egyikét: {characters}',
+  mustContainSpecialMessage:
+    'tartalmaznia kell az alábbi különleges karakterek egyikét: {characters}',
   mustContainLowerMessage: 'tartalmaznia kell egy kisbetűs karaktert',
   mustContainCapitalMessage: 'tartalmaznia kell egy nagybetűs karaktert',
   customValidationMessage: 'érvénytelen',

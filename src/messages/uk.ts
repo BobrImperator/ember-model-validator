@@ -8,7 +8,8 @@ export default {
   numericalityMessage: 'не число',
   numericalityOnlyIntegerMessage: 'має бути цілим числом',
   numericalityGreaterThanMessage: 'має бути більше {count}',
-  numericalityGreaterThanOrEqualToMessage: 'має бути більшим або рівним {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'має бути більшим або рівним {count}',
   numericalityEqualToMessage: 'має бути рівним {count}',
   numericalityLessThanMessage: 'має бути меншим {count}',
   numericalityLessThanOrEqualToMessage: 'має бути меншим або рівним {count}',

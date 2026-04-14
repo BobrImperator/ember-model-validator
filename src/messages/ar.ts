@@ -8,7 +8,8 @@ export default {
   numericalityMessage: 'ليس رقماً',
   numericalityOnlyIntegerMessage: 'يجب أن يكون رقماً صحيحاً',
   numericalityGreaterThanMessage: 'يجب أن يكون أكثر من {count}',
-  numericalityGreaterThanOrEqualToMessage: 'يجب أن يكون أكثر من أو يساوي {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'يجب أن يكون أكثر من أو يساوي {count}',
   numericalityEqualToMessage: 'يجب أن يساوي {count}',
   numericalityLessThanMessage: 'يجب أن يكون أقل من {count}',
   numericalityLessThanOrEqualToMessage: 'يجب أن يكون أقل أو يساوي {count}',

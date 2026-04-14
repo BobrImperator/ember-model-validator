@@ -1,5 +1,10 @@
 import { defineConfig } from 'vite';
-import { extensions, ember, classicEmberSupport, optimizeDeps } from '@embroider/vite';
+import {
+  extensions,
+  ember,
+  classicEmberSupport,
+  optimizeDeps,
+} from '@embroider/vite';
 import { babel } from '@rollup/plugin-babel';
 
 // For scenario testing

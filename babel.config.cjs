@@ -63,10 +63,15 @@ if (Array.isArray(macroPlugin)) {
 const isCompat = Boolean(process.env.ENABLE_COMPAT_BUILD);
 
 module.exports = {
-  presets: [
-    ['@babel/preset-typescript', { allowDeclareFields: true, allExtensions: true }],
-  ],
   plugins: [
+    [
+      '@babel/plugin-transform-typescript',
+      {
+        allExtensions: true,
+        allowDeclareFields: true,
+        onlyRemoveTypeImports: true,
+      },
+    ],
     [
       'babel-plugin-ember-template-compilation',
       {

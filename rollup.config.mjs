@@ -66,6 +66,12 @@ export default {
     // to leave alone and keep in the published output.
     addon.keepAssets(['**/*.css']),
 
+    // Generate declaration files from tsconfig.publish.json
+    addon.declarations(
+      'declarations',
+      'ember-tsc -p tsconfig.publish.json --declaration --emitDeclarationOnly',
+    ),
+
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),
   ],

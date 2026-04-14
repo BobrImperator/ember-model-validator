@@ -1,5 +1,5 @@
 import { set } from '@ember/object';
-import Validator from './core-validator';
+import Validator from './core-validator.js';
 
 function modelValidator(constructor) {
   @Validator
@@ -13,9 +13,13 @@ function modelValidator(constructor) {
     pushErrors(errors) {
       // This is a hack to support Ember Data 3.28
       if (this._internalModel?.transitionTo) {
-        const stateToTransition = this.isNew ? 'created.uncommitted' : 'updated.uncommitted';
+        const stateToTransition = this.isNew
+          ? 'created.uncommitted'
+          : 'updated.uncommitted';
         this._internalModel.transitionTo(stateToTransition);
-        const recordModel = this.adapterDidInvalidate ? this : this._internalModel;
+        const recordModel = this.adapterDidInvalidate
+          ? this
+          : this._internalModel;
         this.store.recordWasInvalid(recordModel, errors, 'error');
       } else {
         const modelErrors = this.errors;

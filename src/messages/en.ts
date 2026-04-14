@@ -8,7 +8,8 @@ export default {
   numericalityMessage: 'is not a number',
   numericalityOnlyIntegerMessage: 'must be an integer',
   numericalityGreaterThanMessage: 'must be greater than {count}',
-  numericalityGreaterThanOrEqualToMessage: 'must be greater than or equal to {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'must be greater than or equal to {count}',
   numericalityEqualToMessage: 'must be equal to {count}',
   numericalityLessThanMessage: 'must be less than {count}',
   numericalityLessThanOrEqualToMessage: 'must be less than or equal to {count}',
@@ -26,7 +27,8 @@ export default {
   tooShortMessage: 'is too short (minimum is {count} characters)',
   tooLongMessage: 'is too long (maximum is {count} characters)',
   mustContainNumberMessage: 'must include a number',
-  mustContainSpecialMessage: 'must include one of these special characters: {characters}',
+  mustContainSpecialMessage:
+    'must include one of these special characters: {characters}',
   mustContainLowerMessage: 'must include a lower case character',
   mustContainCapitalMessage: 'must include an upper case character',
   customValidationMessage: 'is invalid',

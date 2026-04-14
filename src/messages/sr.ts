@@ -8,10 +8,12 @@ export default {
   numericalityMessage: 'treba da je broj',
   numericalityOnlyIntegerMessage: 'treba da bude ceo broj',
   numericalityGreaterThanMessage: 'treba da je veće/a od {count}',
-  numericalityGreaterThanOrEqualToMessage: 'treba da je veće/a ili jednako/a od/sa {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'treba da je veće/a ili jednako/a od/sa {count}',
   numericalityEqualToMessage: 'treba da bude jednako/a sa {count}',
   numericalityLessThanMessage: 'treba da bude manje/a od {count}',
-  numericalityLessThanOrEqualToMessage: 'treba da bude manje/a ili jednako/a od/sa {count}',
+  numericalityLessThanOrEqualToMessage:
+    'treba da bude manje/a ili jednako/a od/sa {count}',
   numericalityOddMessage: 'treba da bude neparno/a',
   numericalityEvenMessage: 'treba da bude parno/a',
 
@@ -26,7 +28,8 @@ export default {
   tooShortMessage: 'prekratko/a (minimum je {count} karaktera)',
   tooLongMessage: 'predugo/a (maksimum je {count} karaktera)',
   mustContainNumberMessage: 'mora da sadrži broj',
-  mustContainSpecialMessage: 'mora da sadrži jedan od ovih specijalnih znakova: {characters}',
+  mustContainSpecialMessage:
+    'mora da sadrži jedan od ovih specijalnih znakova: {characters}',
   mustContainLowerMessage: 'mora da sadrži mala slova',
   mustContainCapitalMessage: 'mora da sadrži veliko slovo',
   customValidationMessage: 'sadrži grešku',

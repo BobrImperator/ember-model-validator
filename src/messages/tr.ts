@@ -7,7 +7,8 @@ export default {
   numericalityMessage: 'bir sayı değil',
   numericalityOnlyIntegerMessage: 'bir tamsayı olmalı',
   numericalityGreaterThanMessage: "{count}'den büyük olmalı",
-  numericalityGreaterThanOrEqualToMessage: "{count}'e eşit veya daha büyük olmalı",
+  numericalityGreaterThanOrEqualToMessage:
+    "{count}'e eşit veya daha büyük olmalı",
   numericalityEqualToMessage: "{count}'e eşit olmalı",
   numericalityLessThanMessage: "{count}'dan küçük olmalı",
   numericalityLessThanOrEqualToMessage: "{count}'a eşit veya daha küçük olmalı",
@@ -25,7 +26,8 @@ export default {
   tooShortMessage: 'çok kısa (minimum {count} karakter)',
   tooLongMessage: 'çok uzun (maksimum {count} karakter)',
   mustContainNumberMessage: 'bir sayı içermeli',
-  mustContainSpecialMessage: 'bu özel karakterlerden birini içermeli: {characters}',
+  mustContainSpecialMessage:
+    'bu özel karakterlerden birini içermeli: {characters}',
   mustContainLowerMessage: 'küçük harf içermeli',
   mustContainCapitalMessage: 'büyük harf içermeli',
   customValidationMessage: 'geçersiz',

@@ -7,7 +7,8 @@ export default {
   numericalityMessage: "n'est pas un nombre",
   numericalityOnlyIntegerMessage: 'doit être un nombre entier',
   numericalityGreaterThanMessage: 'doit être supérieur à {count}',
-  numericalityGreaterThanOrEqualToMessage: 'doit être supérieur ou égal à {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'doit être supérieur ou égal à {count}',
   numericalityEqualToMessage: 'doit être égal à {count}',
   numericalityLessThanMessage: 'doit être inférieur à {count}',
   numericalityLessThanOrEqualToMessage: 'doit être inférieur ou égal à {count}',
@@ -21,11 +22,13 @@ export default {
   acceptanceMessage: 'doit être accepté(e)',
   zipCodeMessage: "n'est pas un code postal valide",
   URLMessage: 'doit être une URL valide',
-  wrongLengthMessage: 'ne fait pas la bonne longueur (doit comporter {count} caractères)',
+  wrongLengthMessage:
+    'ne fait pas la bonne longueur (doit comporter {count} caractères)',
   tooShortMessage: 'est trop court (au moins {count} caractères)',
   tooLongMessage: 'est trop long (pas plus de {count} caractères)',
   mustContainNumberMessage: 'doit inclure un nombre',
-  mustContainSpecialMessage: "doit inclure l'un de ces caractères spéciaux: {characters}",
+  mustContainSpecialMessage:
+    "doit inclure l'un de ces caractères spéciaux: {characters}",
   mustContainLowerMessage: 'doit comporter un caractère minuscule',
   mustContainCapitalMessage: 'doit comporter un caractère majuscule',
   customValidationMessage: "n'est pas valide",

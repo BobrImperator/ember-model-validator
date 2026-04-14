@@ -8,10 +8,12 @@ export default {
   numericalityMessage: 'треба да је број',
   numericalityOnlyIntegerMessage: 'треба да буде цео број',
   numericalityGreaterThanMessage: 'треба да је веће/а од {count}',
-  numericalityGreaterThanOrEqualToMessage: 'треба да је веће/а или једнако/а од/са {count}',
+  numericalityGreaterThanOrEqualToMessage:
+    'треба да је веће/а или једнако/а од/са {count}',
   numericalityEqualToMessage: 'треба да буде једнако/а са {count}',
   numericalityLessThanMessage: 'треба да буде мање/а од {count}',
-  numericalityLessThanOrEqualToMessage: 'треба да буде мање/а или једнако/а од/са {count}',
+  numericalityLessThanOrEqualToMessage:
+    'треба да буде мање/а или једнако/а од/са {count}',
   numericalityOddMessage: 'треба да буде непарно/а',
   numericalityEvenMessage: 'треба да буде парно/а',
 
@@ -26,7 +28,8 @@ export default {
   tooShortMessage: 'прекратко/а (минимум је {count} карактера)',
   tooLongMessage: 'предуго/а (максимум је {count} карактера)',
   mustContainNumberMessage: 'мора да садржи број',
-  mustContainSpecialMessage: 'мора да садржи један од ових специјалних знакова: {characters}',
+  mustContainSpecialMessage:
+    'мора да садржи један од ових специјалних знакова: {characters}',
   mustContainLowerMessage: 'мора да садржи мала слова',
   mustContainCapitalMessage: 'мора да садржи велико слово',
   customValidationMessage: 'садржи грешку',

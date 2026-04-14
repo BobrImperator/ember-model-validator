@@ -16,15 +16,15 @@
     "#src/*": "./src/*"
   },
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "types": "./declarations/index.d.ts",
+      "default": "./dist/index.js"
+    },
     "./addon-main.js": "./addon-main.cjs",
-    "./decorators/*.js": "./dist/decorators/*.js",
-    "./decorators/*": "./dist/decorators/*.js",
-    "./initializers/*.js": "./dist/initializers/*.js",
-    "./initializers/*": "./dist/initializers/*.js",
-    "./messages/*.js": "./dist/messages/*.js",
-    "./messages/*": "./dist/messages/*.js",
-    "./postal-codes-regex": "./dist/postal-codes-regex.js"
+    "./*": {
+      "types": "./declarations/*.d.ts",
+      "default": "./dist/*.js"
+    }
   },
   "files": [
     "addon-main.cjs",
@@ -33,7 +33,7 @@
     "src"
   ],
   "scripts": {
-    "build": "rollup --config",
+    "build": "rollup --config && cp src/index.d.ts declarations/index.d.ts",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm run format",
@@ -42,8 +42,9 @@
     "lint:hbs:fix": "ember-template-lint . --fix --no-error-on-unmatched-pattern",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
+    "lint:types": "ember-tsc --noEmit",
     "lint:publish": "pnpm build && publint run --level error",
-    "prepack": "rollup --config",
+    "prepack": "rollup --config && cp src/index.d.ts declarations/index.d.ts",
     "start": "vite dev",
     "test": "vite build --mode=development --out-dir dist-tests && testem --file testem.cjs ci --port 0"
   },
@@ -54,7 +55,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/eslint-parser": "^7.25.1",
-    "@babel/preset-typescript": "^7.25.0",
+    "@babel/plugin-transform-typescript": "^7.25.2",
     "@babel/runtime": "^7.25.6",
     "@ember-data/adapter": "~5.3.13",
     "@ember-data/model": "~5.3.13",
@@ -71,8 +72,17 @@
     "@eslint/js": "^9.17.0",
     "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
+    "@glint/ember-tsc": "^1.0.3",
+    "@glint/template": "^1.6.1",
+    "@glint/tsserver-plugin": "^2.0.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^16.0.3",
+    "@types/ember-data": "4.4.7",
+    "@types/ember-data__adapter": "4.0.2",
+    "@types/ember-data__model": "^4.0.0",
+    "@types/ember-data__serializer": "^4.0.1",
+    "@types/ember-data__store": "^4.0.2",
+    "@types/qunit": "^2.19.12",
     "babel-plugin-ember-template-compilation": "^4.0.0",
     "concurrently": "^9.0.1",
     "ember-data": "~5.3.13",
@@ -94,6 +104,8 @@
     "qunit-dom": "^3.4.0",
     "rollup": "^4.22.5",
     "testem": "^3.15.1",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.19.1",
     "vite": "^7.1.9"
   },
   "publishConfig": {

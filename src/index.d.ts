@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type ValidationKeys =
   | 'presence'
   | 'acceptance'
@@ -29,8 +30,12 @@ type ValidationKeys =
  * You can also pass an option hash for excluding or forcing certain attributes to be validated, and to prevent
  * errors to be added.
  */
-export function modelValidator<T>(target: T): T & { validate: (options?: ValidateOptions) => boolean };
-export function objectValidator<T>(target: T): T & { validate: (options?: ValidateOptions) => boolean };
+export function modelValidator<T>(
+  target: T,
+): T & { validate: (options?: ValidateOptions) => boolean };
+export function objectValidator<T>(
+  target: T,
+): T & { validate: (options?: ValidateOptions) => boolean };
 
 export interface ValidateOptions {
   except?: string[];

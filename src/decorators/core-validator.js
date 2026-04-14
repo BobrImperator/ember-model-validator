@@ -3,17 +3,17 @@ import { getOwner } from '@ember/application';
 import { isEmpty, isBlank, isPresent, typeOf, isEqual } from '@ember/utils';
 import { A, isArray } from '@ember/array';
 
-import PostalCodesRegex from '../postal-codes-regex';
+import PostalCodesRegex from '../postal-codes-regex.ts';
 
-import MessagesEn from '../messages/en';
-import MessagesAr from '../messages/ar';
-import MessagesFr from '../messages/fr';
-import MessagesEs from '../messages/es';
-import MessagesPtbr from '../messages/pt-br';
-import MessagesUk from '../messages/uk';
-import MessagesHu from '../messages/hu';
-import MessagesSr from '../messages/sr';
-import MessagesSrCyrl from '../messages/sr-cyrl';
+import MessagesEn from '../messages/en.ts';
+import MessagesAr from '../messages/ar.ts';
+import MessagesFr from '../messages/fr.ts';
+import MessagesEs from '../messages/es.ts';
+import MessagesPtbr from '../messages/pt-br.ts';
+import MessagesUk from '../messages/uk.ts';
+import MessagesHu from '../messages/hu.ts';
+import MessagesSr from '../messages/sr.ts';
+import MessagesSrCyrl from '../messages/sr-cyrl.ts';
 
 const Messages = {
   en: MessagesEn,
@@ -46,7 +46,8 @@ function coreValidator(constructor) {
         validatorLocale = getOwner(this)?.lookup('validator:locale');
       }
 
-      this['_locale'] = this['_locale'] ?? (validatorLocale ? validatorLocale.locale : 'en');
+      this['_locale'] =
+        this['_locale'] ?? (validatorLocale ? validatorLocale.locale : 'en');
       set(this, '_validationMessages', Messages[this['_locale']]);
     }
 
@@ -78,12 +79,21 @@ function coreValidator(constructor) {
           if (this._exceptOrOnly(property, validation, options)) {
             let validationName = capitalize(validation);
             // allowBlank option
-            if (get(validations[property], `${validation}.allowBlank`) && isEmpty(get(this, property))) {
+            if (
+              get(validations[property], `${validation}.allowBlank`) &&
+              isEmpty(get(this, property))
+            ) {
               continue;
             }
             // conditional functions
-            let conditionalFunction = get(validations[property], `${validation}.if`);
-            if (conditionalFunction && !conditionalFunction(property, get(this, property), this)) {
+            let conditionalFunction = get(
+              validations[property],
+              `${validation}.if`,
+            );
+            if (
+              conditionalFunction &&
+              !conditionalFunction(property, get(this, property), this)
+            ) {
               continue;
             }
             this[`_validate${validationName}`](property, validations[property]);
@@ -107,14 +117,24 @@ function coreValidator(constructor) {
 
     /**** Validators ****/
     _validateCustom(property, validation) {
-      validation = isArray(validation.custom) ? validation.custom : [validation.custom];
+      validation = isArray(validation.custom)
+        ? validation.custom
+        : [validation.custom];
       for (let i = 0; i < validation.length; i++) {
         let customValidator = this._getCustomValidator(validation[i]);
         if (customValidator) {
-          let passedCustomValidation = customValidator(property, get(this, property), this);
+          let passedCustomValidation = customValidator(
+            property,
+            get(this, property),
+            this,
+          );
           if (!passedCustomValidation) {
             set(this, 'isValidNow', false);
-            this._addToErrors(property, validation[i], this._validationMessages.customValidationMessage);
+            this._addToErrors(
+              property,
+              validation[i],
+              this._validationMessages.customValidationMessage,
+            );
           }
         }
       }
@@ -122,18 +142,29 @@ function coreValidator(constructor) {
     _validatePresence(property, validation) {
       let propertyValue = get(this, property);
       // If the property is an async relationship.
-      if (this._modelRelations() && !isBlank(this._modelRelations()[property])) {
+      if (
+        this._modelRelations() &&
+        !isBlank(this._modelRelations()[property])
+      ) {
         propertyValue = get(this, `${property}.content`);
       }
       if (isBlank(propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.presence, this._validationMessages.presenceMessage);
+        this._addToErrors(
+          property,
+          validation.presence,
+          this._validationMessages.presenceMessage,
+        );
       }
     }
     _validateAbsence(property, validation) {
       if (isPresent(get(this, property))) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.absence, this._validationMessages.absenceMessage);
+        this._addToErrors(
+          property,
+          validation.absence,
+          this._validationMessages.absenceMessage,
+        );
       }
     }
     _validateAcceptance(property, validation) {
@@ -141,25 +172,40 @@ function coreValidator(constructor) {
         accept = validation.acceptance.accept || [1, '1', true];
       if (!this._includes(A(accept), propertyValue)) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.acceptance, this._validationMessages.acceptanceMessage);
+        this._addToErrors(
+          property,
+          validation.acceptance,
+          this._validationMessages.acceptanceMessage,
+        );
       }
     }
     _validateFormat(property, validation) {
       let withRegexp = validation.format.with;
-      if (get(this, property) && String(get(this, property)).match(withRegexp) === null) {
+      if (
+        get(this, property) &&
+        String(get(this, property)).match(withRegexp) === null
+      ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.format, this._validationMessages.formatMessage);
+        this._addToErrors(
+          property,
+          validation.format,
+          this._validationMessages.formatMessage,
+        );
       }
     }
     _validateEmail(property, validation) {
       if (
         !get(this, property) ||
         String(get(this, property)).match(
-          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
         ) === null
       ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.email, this._validationMessages.mailMessage);
+        this._addToErrors(
+          property,
+          validation.email,
+          this._validationMessages.mailMessage,
+        );
       }
     }
     _validateZipCode(property, validation) {
@@ -167,7 +213,9 @@ function coreValidator(constructor) {
       let propertyValue = get(this, property);
 
       let countryCode = DEFAULT_COUNTRY_CODE;
-      if (Object.prototype.hasOwnProperty.call(validation.zipCode, 'countryCode')) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.zipCode, 'countryCode')
+      ) {
         countryCode = validation.zipCode.countryCode;
       }
       if (isArray(countryCode)) {
@@ -176,9 +224,16 @@ function coreValidator(constructor) {
           if (typeof postalCodeRegexp === 'undefined') {
             postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
           }
-          if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null) {
+          if (
+            !propertyValue ||
+            String(propertyValue).match(postalCodeRegexp) === null
+          ) {
             set(this, 'isValidNow', false);
-            this._addToErrors(property, validation.zipCode, this._validationMessages.zipCodeMessage);
+            this._addToErrors(
+              property,
+              validation.zipCode,
+              this._validationMessages.zipCodeMessage,
+            );
           }
         });
       } else {
@@ -186,17 +241,32 @@ function coreValidator(constructor) {
         if (typeof postalCodeRegexp === 'undefined') {
           postalCodeRegexp = PostalCodesRegex[DEFAULT_COUNTRY_CODE];
         }
-        if (!propertyValue || String(propertyValue).match(postalCodeRegexp) === null) {
+        if (
+          !propertyValue ||
+          String(propertyValue).match(postalCodeRegexp) === null
+        ) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.zipCode, this._validationMessages.zipCodeMessage);
+          this._addToErrors(
+            property,
+            validation.zipCode,
+            this._validationMessages.zipCodeMessage,
+          );
         }
       }
     }
     _validateColor(property, validation) {
       let propertyValue = get(this, property);
-      if (!propertyValue || String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) === null) {
+      if (
+        !propertyValue ||
+        String(propertyValue).match(/([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i) ===
+          null
+      ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.color, this._validationMessages.colorMessage);
+        this._addToErrors(
+          property,
+          validation.color,
+          this._validationMessages.colorMessage,
+        );
       }
     }
     _validateURL(property, validation) {
@@ -204,11 +274,15 @@ function coreValidator(constructor) {
       if (
         !propertyValue ||
         String(propertyValue).match(
-          /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?$/
+          /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?$/,
         ) === null
       ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.URL, this._validationMessages.URLMessage);
+        this._addToErrors(
+          property,
+          validation.URL,
+          this._validationMessages.URLMessage,
+        );
       }
     }
     _validateSubdomain(property, validation) {
@@ -220,37 +294,61 @@ function coreValidator(constructor) {
         reserved.indexOf(propertyValue) !== -1
       ) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.subdomain, this._validationMessages.subdomainMessage);
+        this._addToErrors(
+          property,
+          validation.subdomain,
+          this._validationMessages.subdomainMessage,
+        );
       }
     }
     _validateDate(property, validation) {
       let propertyValue = new Date(get(this, property));
       if (isNaN(propertyValue.getTime())) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.date, this._validationMessages.dateMessage);
+        this._addToErrors(
+          property,
+          validation.date,
+          this._validationMessages.dateMessage,
+        );
         return;
       }
-      if (Object.prototype.hasOwnProperty.call(validation.date, 'before') && validation.date.before) {
-        if (propertyValue.getTime() >= new Date(validation.date.before).getTime()) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.date, 'before') &&
+        validation.date.before
+      ) {
+        if (
+          propertyValue.getTime() >= new Date(validation.date.before).getTime()
+        ) {
           set(this, 'isValidNow', false);
           let context = { date: new Date(validation.date.before) };
           validation.date.interpolatedValue = validation.date.before;
           this._addToErrors(
             property,
             validation.date,
-            this._formatMessage(this._validationMessages.dateBeforeMessage, context)
+            this._formatMessage(
+              this._validationMessages.dateBeforeMessage,
+              context,
+            ),
           );
         }
       }
-      if (Object.prototype.hasOwnProperty.call(validation.date, 'after') && validation.date.after) {
-        if (propertyValue.getTime() <= new Date(validation.date.after).getTime()) {
+      if (
+        Object.prototype.hasOwnProperty.call(validation.date, 'after') &&
+        validation.date.after
+      ) {
+        if (
+          propertyValue.getTime() <= new Date(validation.date.after).getTime()
+        ) {
           set(this, 'isValidNow', false);
           let context = { date: new Date(validation.date.after) };
           validation.date.interpolatedValue = validation.date.after;
           this._addToErrors(
             property,
             validation.date,
-            this._formatMessage(this._validationMessages.dateAfterMessage, context)
+            this._formatMessage(
+              this._validationMessages.dateAfterMessage,
+              context,
+            ),
           );
         }
       }
@@ -259,101 +357,161 @@ function coreValidator(constructor) {
       let propertyValue = get(this, property);
       if (!this._isNumber(get(this, property))) {
         set(this, 'isValidNow', false);
-        this._addToErrors(property, validation.numericality, this._validationMessages.numericalityMessage);
+        this._addToErrors(
+          property,
+          validation.numericality,
+          this._validationMessages.numericalityMessage,
+        );
       }
       if (
-        Object.prototype.hasOwnProperty.call(validation.numericality, 'onlyInteger') &&
+        Object.prototype.hasOwnProperty.call(
+          validation.numericality,
+          'onlyInteger',
+        ) &&
         validation.numericality.onlyInteger
       ) {
         if (!/^[+-]?\d+$/.test(propertyValue)) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.numericality, this._validationMessages.numericalityOnlyIntegerMessage);
-        }
-      }
-      if (Object.prototype.hasOwnProperty.call(validation.numericality, 'even') && validation.numericality.even) {
-        if (propertyValue % 2 !== 0) {
-          set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.numericality, this._validationMessages.numericalityEvenMessage);
-        }
-      }
-      if (Object.prototype.hasOwnProperty.call(validation.numericality, 'odd') && validation.numericality.odd) {
-        if (propertyValue % 2 === 0) {
-          set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.numericality, this._validationMessages.numericalityOddMessage);
+          this._addToErrors(
+            property,
+            validation.numericality,
+            this._validationMessages.numericalityOnlyIntegerMessage,
+          );
         }
       }
       if (
-        Object.prototype.hasOwnProperty.call(validation.numericality, 'greaterThan') &&
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'even') &&
+        validation.numericality.even
+      ) {
+        if (propertyValue % 2 !== 0) {
+          set(this, 'isValidNow', false);
+          this._addToErrors(
+            property,
+            validation.numericality,
+            this._validationMessages.numericalityEvenMessage,
+          );
+        }
+      }
+      if (
+        Object.prototype.hasOwnProperty.call(validation.numericality, 'odd') &&
+        validation.numericality.odd
+      ) {
+        if (propertyValue % 2 === 0) {
+          set(this, 'isValidNow', false);
+          this._addToErrors(
+            property,
+            validation.numericality,
+            this._validationMessages.numericalityOddMessage,
+          );
+        }
+      }
+      if (
+        Object.prototype.hasOwnProperty.call(
+          validation.numericality,
+          'greaterThan',
+        ) &&
         this._isNumber(validation.numericality.greaterThan)
       ) {
         if (propertyValue <= validation.numericality.greaterThan) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.greaterThan };
-          validation.numericality.interpolatedValue = validation.numericality.greaterThan;
+          validation.numericality.interpolatedValue =
+            validation.numericality.greaterThan;
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(this._validationMessages.numericalityGreaterThanMessage, context)
+            this._formatMessage(
+              this._validationMessages.numericalityGreaterThanMessage,
+              context,
+            ),
           );
         }
       }
       if (
-        Object.prototype.hasOwnProperty.call(validation.numericality, 'greaterThanOrEqualTo') &&
+        Object.prototype.hasOwnProperty.call(
+          validation.numericality,
+          'greaterThanOrEqualTo',
+        ) &&
         this._isNumber(validation.numericality.greaterThanOrEqualTo)
       ) {
         if (propertyValue < validation.numericality.greaterThanOrEqualTo) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.greaterThanOrEqualTo };
-          validation.numericality.interpolatedValue = validation.numericality.greaterThanOrEqualTo;
+          validation.numericality.interpolatedValue =
+            validation.numericality.greaterThanOrEqualTo;
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(this._validationMessages.numericalityGreaterThanOrEqualToMessage, context)
+            this._formatMessage(
+              this._validationMessages.numericalityGreaterThanOrEqualToMessage,
+              context,
+            ),
           );
         }
       }
       if (
-        Object.prototype.hasOwnProperty.call(validation.numericality, 'equalTo') &&
+        Object.prototype.hasOwnProperty.call(
+          validation.numericality,
+          'equalTo',
+        ) &&
         this._isNumber(validation.numericality.equalTo)
       ) {
         if (propertyValue !== validation.numericality.equalTo) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.equalTo };
-          validation.numericality.interpolatedValue = validation.numericality.equalTo;
+          validation.numericality.interpolatedValue =
+            validation.numericality.equalTo;
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(this._validationMessages.numericalityEqualToMessage, context)
+            this._formatMessage(
+              this._validationMessages.numericalityEqualToMessage,
+              context,
+            ),
           );
         }
       }
       if (
-        Object.prototype.hasOwnProperty.call(validation.numericality, 'lessThan') &&
+        Object.prototype.hasOwnProperty.call(
+          validation.numericality,
+          'lessThan',
+        ) &&
         this._isNumber(validation.numericality.lessThan)
       ) {
         if (propertyValue >= validation.numericality.lessThan) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.lessThan };
-          validation.numericality.interpolatedValue = validation.numericality.lessThan;
+          validation.numericality.interpolatedValue =
+            validation.numericality.lessThan;
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(this._validationMessages.numericalityLessThanMessage, context)
+            this._formatMessage(
+              this._validationMessages.numericalityLessThanMessage,
+              context,
+            ),
           );
         }
       }
       if (
-        Object.prototype.hasOwnProperty.call(validation.numericality, 'lessThanOrEqualTo') &&
+        Object.prototype.hasOwnProperty.call(
+          validation.numericality,
+          'lessThanOrEqualTo',
+        ) &&
         this._isNumber(validation.numericality.lessThanOrEqualTo)
       ) {
         if (propertyValue > validation.numericality.lessThanOrEqualTo) {
           set(this, 'isValidNow', false);
           let context = { count: validation.numericality.lessThanOrEqualTo };
-          validation.numericality.interpolatedValue = validation.numericality.lessThanOrEqualTo;
+          validation.numericality.interpolatedValue =
+            validation.numericality.lessThanOrEqualTo;
           this._addToErrors(
             property,
             validation.numericality,
-            this._formatMessage(this._validationMessages.numericalityLessThanOrEqualToMessage, context)
+            this._formatMessage(
+              this._validationMessages.numericalityLessThanOrEqualToMessage,
+              context,
+            ),
           );
         }
       }
@@ -362,7 +520,11 @@ function coreValidator(constructor) {
       if (Object.prototype.hasOwnProperty.call(validation.exclusion, 'in')) {
         if (validation.exclusion.in.indexOf(get(this, property)) !== -1) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.exclusion, this._validationMessages.exclusionMessage);
+          this._addToErrors(
+            property,
+            validation.exclusion,
+            this._validationMessages.exclusionMessage,
+          );
         }
       }
     }
@@ -370,7 +532,11 @@ function coreValidator(constructor) {
       if (Object.prototype.hasOwnProperty.call(validation.inclusion, 'in')) {
         if (validation.inclusion.in.indexOf(get(this, property)) === -1) {
           set(this, 'isValidNow', false);
-          this._addToErrors(property, validation.inclusion, this._validationMessages.inclusionMessage);
+          this._addToErrors(
+            property,
+            validation.inclusion,
+            this._validationMessages.inclusionMessage,
+          );
         }
       }
     }
@@ -388,7 +554,7 @@ function coreValidator(constructor) {
         this._addToErrors(
           property,
           validation.match,
-          this._formatMessage(this._validationMessages.matchMessage, context)
+          this._formatMessage(this._validationMessages.matchMessage, context),
         );
       }
     }
@@ -402,7 +568,10 @@ function coreValidator(constructor) {
         validation.length = { is: validation.length };
         this._exactLength(stringLength, property, validation);
       } else if (validationType === 'array') {
-        validation.length = { minimum: validation.length[0], maximum: validation.length[1] };
+        validation.length = {
+          minimum: validation.length[0],
+          maximum: validation.length[1],
+        };
         this._rangeLength(stringLength, property, validation);
       } else if (validationType === 'object') {
         if (Object.prototype.hasOwnProperty.call(validation.length, 'is')) {
@@ -420,7 +589,10 @@ function coreValidator(constructor) {
         this._addToErrors(
           property,
           validation.length,
-          this._formatMessage(this._validationMessages.wrongLengthMessage, context)
+          this._formatMessage(
+            this._validationMessages.wrongLengthMessage,
+            context,
+          ),
         );
       }
     }
@@ -454,7 +626,10 @@ function coreValidator(constructor) {
         this._addToErrors(
           property,
           validation.length.minimum,
-          this._formatMessage(this._validationMessages.tooShortMessage, context)
+          this._formatMessage(
+            this._validationMessages.tooShortMessage,
+            context,
+          ),
         );
       } else if (stringLength > maximum) {
         set(this, 'isValidNow', false);
@@ -465,7 +640,7 @@ function coreValidator(constructor) {
         this._addToErrors(
           property,
           validation.length.maximum,
-          this._formatMessage(this._validationMessages.tooLongMessage, context)
+          this._formatMessage(this._validationMessages.tooLongMessage, context),
         );
       }
     }
@@ -479,44 +654,63 @@ function coreValidator(constructor) {
           });
         }
       } else if (validation.relations.indexOf('belongsTo') !== -1) {
-        if (get(this, `${property}.content`) && !get(this, `${property}.content`).validate()) {
+        if (
+          get(this, `${property}.content`) &&
+          !get(this, `${property}.content`).validate()
+        ) {
           set(this, 'isValidNow', false);
         }
       }
     }
     _validateMustContainCapital(property, validation) {
-      let notContainCapital = String(get(this, property)).match(/(?=.*[A-Z])/) === null,
-        message = validation.mustContainCapital.message || this._validationMessages.mustContainCapitalMessage;
+      let notContainCapital =
+          String(get(this, property)).match(/(?=.*[A-Z])/) === null,
+        message =
+          validation.mustContainCapital.message ||
+          this._validationMessages.mustContainCapitalMessage;
       if (validation.mustContainCapital && notContainCapital) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation, message);
       }
     }
     _validateMustContainLower(property, validation) {
-      let containsLower = String(get(this, property)).match(/(?=.*[a-z])/) !== null,
-        message = validation.mustContainLower.message || this._validationMessages.mustContainLowerMessage;
+      let containsLower =
+          String(get(this, property)).match(/(?=.*[a-z])/) !== null,
+        message =
+          validation.mustContainLower.message ||
+          this._validationMessages.mustContainLowerMessage;
       if (validation.mustContainLower && !containsLower) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation, message);
       }
     }
     _validateMustContainNumber(property, validation) {
-      let containsNumber = String(get(this, property)).match(/(?=.*[0-9])/) !== null,
-        message = validation.mustContainNumber.message || this._validationMessages.mustContainNumberMessage;
+      let containsNumber =
+          String(get(this, property)).match(/(?=.*[0-9])/) !== null,
+        message =
+          validation.mustContainNumber.message ||
+          this._validationMessages.mustContainNumberMessage;
       if (validation.mustContainNumber && !containsNumber) {
         set(this, 'isValidNow', false);
         this._addToErrors(property, validation, message);
       }
     }
     _validateMustContainSpecial(property, validation) {
-      let regexString = validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()',
+      let regexString =
+          validation.mustContainSpecial.acceptableChars || '-+_!@#$%^&*.,?()',
         regex = new RegExp(`(?=.*[${regexString}])`),
         containsSpecial = String(get(this, property)).match(regex) !== null,
-        message = validation.mustContainSpecial.message || this._validationMessages.mustContainSpecialMessage;
+        message =
+          validation.mustContainSpecial.message ||
+          this._validationMessages.mustContainSpecialMessage;
       if (validation.mustContainSpecial && !containsSpecial) {
         set(this, 'isValidNow', false);
         let context = { characters: regexString };
-        this._addToErrors(property, validation, this._formatMessage(message, context));
+        this._addToErrors(
+          property,
+          validation,
+          this._formatMessage(message, context),
+        );
       }
     }
 
@@ -524,10 +718,18 @@ function coreValidator(constructor) {
     _exceptOrOnly(property, validation, options) {
       let validateThis = true;
       if (isPresent(options.except) && isArray(options.except)) {
-        validateThis = !this._hasCompositeTag(property, validation, options.except);
+        validateThis = !this._hasCompositeTag(
+          property,
+          validation,
+          options.except,
+        );
       }
       if (isPresent(options.only) && isArray(options.only)) {
-        validateThis = this._hasCompositeTag(property, validation, options.only);
+        validateThis = this._hasCompositeTag(
+          property,
+          validation,
+          options.only,
+        );
       }
       return validateThis;
     }
@@ -549,15 +751,26 @@ function coreValidator(constructor) {
     }
     _getCustomValidator(validation) {
       let customValidator = validation;
-      if (typeOf(validation) === 'object' && Object.prototype.hasOwnProperty.call(validation, 'validation')) {
+      if (
+        typeOf(validation) === 'object' &&
+        Object.prototype.hasOwnProperty.call(validation, 'validation')
+      ) {
         customValidator = validation.validation;
       }
       return this._isFunction(customValidator) ? customValidator : false;
     }
     _getCustomMessage(validationObj, defaultMessage, property) {
-      if (typeOf(validationObj) === 'object' && Object.prototype.hasOwnProperty.call(validationObj, 'message')) {
+      if (
+        typeOf(validationObj) === 'object' &&
+        Object.prototype.hasOwnProperty.call(validationObj, 'message')
+      ) {
         if (this._isFunction(validationObj.message)) {
-          let msg = validationObj.message.call(this, property, get(this, property), this);
+          let msg = validationObj.message.call(
+            this,
+            property,
+            get(this, property),
+            this,
+          );
           return this._isString(msg) ? msg : defaultMessage;
         } else {
           let context = { value: validationObj.interpolatedValue };
@@ -570,7 +783,10 @@ function coreValidator(constructor) {
     _addToErrors(property, validation, defaultMessage) {
       let errors = this.validationErrors,
         message = this._getCustomMessage(validation, defaultMessage, property),
-        errorAs = typeOf(validation) === 'object' ? validation.errorAs || property : property;
+        errorAs =
+          typeOf(validation) === 'object'
+            ? validation.errorAs || property
+            : property;
       if (!isArray(errors[errorAs])) {
         errors[errorAs] = [];
       }
@@ -615,11 +831,17 @@ function coreValidator(constructor) {
         // eslint-disable-next-line ember/no-get
       } else if (get(this, '_internalModel._relationships')) {
         // eslint-disable-next-line ember/no-get
-        return get(this, '_internalModel._relationships.initializedRelationships');
+        return get(
+          this,
+          '_internalModel._relationships.initializedRelationships',
+        );
         // eslint-disable-next-line ember/no-get
       } else if (get(this, '_internalModel._recordData._relationships')) {
         // eslint-disable-next-line ember/no-get
-        return get(this, '_internalModel._recordData._relationships.initializedRelationships');
+        return get(
+          this,
+          '_internalModel._recordData._relationships.initializedRelationships',
+        );
       } else {
         const relationships = {};
         if (this.constructor.eachRelationship) {
